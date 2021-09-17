@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { User } = require('../models')
+const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
 router.post('/users/register', (req, res) => {
@@ -14,6 +15,10 @@ router.post('/users/login', (req, res) => {
     if (err) { console.log(err) }
     res.json(user ? jwt.sign({ id: user.id }, process.env.SECRET) : null)
   })
+})
+
+router.get('/users/posts', passport.authenticate('jwt'), (req, res) => {
+  res.json(req.user)
 })
 
 module.exports = router
