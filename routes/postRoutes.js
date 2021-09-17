@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const { Post } = require('../models')
+const { Post, User } = require('../models')
 const passport = require('passport')
 
 router.get('/posts', passport.authenticate('jwt'), (req, res) => {
-  Post.findAll()
+  Post.findAll({ include: 'u' })
   .then(posts => res.json(posts))
   .catch(err => console.log(err))
 })
