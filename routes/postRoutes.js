@@ -13,6 +13,7 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => Post.create({
   body: req.body.body,
   uid: req.user.id
 })
+  .then(post => Post.findOne({ where: { id: post.id }, include: 'u' }))
   .then(post => res.json(post))
   .catch(err => console.log(err)))
 
